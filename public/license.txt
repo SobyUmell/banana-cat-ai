@@ -1,0 +1,11 @@
+Model Information:
+* title:	Banana Cat
+* source:	https://sketchfab.com/3d-models/banana-cat-e770c6fa7c644aa1b47dadedd6c57ecc
+* author:	husk3y (https://sketchfab.com/husk3ys)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Banana Cat" (https://sketchfab.com/3d-models/banana-cat-e770c6fa7c644aa1b47dadedd6c57ecc) by husk3y (https://sketchfab.com/husk3ys) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
