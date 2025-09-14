@@ -1,4 +1,5 @@
 import { useStore } from "../../../shared/lib/chat.store";
+import Markdown from "react-markdown";
 
 export const ChatBubble = () => {
   const message = useStore((state) => state.message);
@@ -19,7 +20,7 @@ export const ChatBubble = () => {
       )}
       {status === "error" && <div className="text-red-500">{message}</div>}
       {(status === "success" || status === "idle") && (
-        <div className="text-black">{message}</div>
+        <Markdown>{message}</Markdown>
       )}
     </div>
   );
