@@ -7,7 +7,7 @@ Title: Banana Cat
 */
 // @ts-nocheck
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 
@@ -16,21 +16,6 @@ export function Model(props) {
   const model = useRef(null);
   const bounceHeight = 0.2; // max bounce
   const bounceSpeed = 19; // higher = faster bounce
-  const [targetRotation, setTargetRotation] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(
-      () => {
-        if (!talking) {
-          const randomAngle = Math.random() * Math.PI * 2; // 0 to 360°
-          setTargetRotation(randomAngle);
-        }
-      },
-      2000 + Math.random() * 3000,
-    );
-
-    return () => clearInterval(interval);
-  }, []);
 
   useFrame(({ clock }) => {
     const t = clock.elapsedTime * bounceSpeed;

@@ -3,6 +3,7 @@ import { groq } from "../../../shared/api";
 import { useStore } from "../../../shared/lib/chat.store";
 import { BANANA_CAT_PROMPT } from "../../../shared/config";
 import { type ChatCompletionMessageParam } from "groq-sdk/resources/chat.mjs";
+import { useMutation } from "@tanstack/react-query";
 
 export const BananaCatChat = () => {
   const [inputValue, setInputValue] = useState<string>("");
@@ -12,10 +13,9 @@ export const BananaCatChat = () => {
   const setStatus = useStore((state) => state.setStatus);
   const setTalking = useStore((state) => state.setTalking);
 
-  const handleSend = async () => {
-    if (inputValue.trim() === "") return;
-
-    try {
+  const { mutate: handleSendMutation } = useMutation({
+    mutationFn: async () => {
+      if (inputValue.trim() === "") return;
       setStatus("loading");
 
       const newMessage: ChatCompletionMessageParam = {
@@ -36,7 +36,6 @@ export const BananaCatChat = () => {
       const responseContent =
         chatCompletion.choices[0]?.message?.content || "No response";
 
-      setStatus("success");
       setMessage(responseContent);
 
       // save the context of the conversation
@@ -47,17 +46,18 @@ export const BananaCatChat = () => {
         setTalking(false);
       }, 5000);
 
-      console.log("response", responseContent);
-      console.log("history", history);
-      console.log("inputValue", inputValue);
-    } catch (error) {
+      setInputValue("");
+      return chatCompletion;
+    },
+    onSuccess: () => {
+      setStatus("success");
+    },
+    onError: () => {
       const errorMessage = "Error fetching chat completion";
       setStatus("error");
       setMessage(errorMessage);
-    } finally {
-      setInputValue("");
-    }
-  };
+    },
+  });
 
   const clearChat = () => {
     setHistory([]);
@@ -75,12 +75,15 @@ export const BananaCatChat = () => {
           onKeyDown={(event: React.KeyboardEvent) => {
             if (event.key === "Enter" && !event.shiftKey) {
               event.preventDefault(); // Prevent the default action (newline)
-              handleSend();
+              handleSendMutation();
             }
           }}
           className="flex-1 bg-white text-lg text-black font-bold p-3 rounded-l-md tracking-widest outline-none"
         />
-        <button onClick={handleSend} className="bg-pink-400 p-3 rounded-r-md">
+        <button
+          onClick={() => handleSendMutation()}
+          className="bg-pink-400 p-3 rounded-r-md"
+        >
           Send
         </button>
         <button onClick={clearChat} className="bg-red-400 p-3  ml-2 rounded-md">
